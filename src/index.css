@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;1,700&display=swap");
+
+body {
+  min-width: 482px;
+  font-family: "Noto Serif", serif;
+}
+header.ant-layout-header {
+  color: white;
+  padding: 0.5rem;
+  display: flex;
+  height: 54px;
+  align-items: center;
+  background-color: #5370fa;
+  box-shadow: 0 2px 8px rgb(59 64 69 / 10%);
+}
+header.ant-layout-header img {
+  height: calc(64px - 1rem);
+}
+footer.ant-layout-footer {
+  padding: 0.5rem;
+  background: white;
+}
+.mb-2 {
+  margin-bottom: 1rem;
+}
+.ml-2 {
+  margin-left: 1em;
+}
+.ml-1 {
+  margin-left: 0.5rem;
+}
+.mr-1 {
+  margin-right: 0.5rem;
+}
+.p-1,
+.ant-card-head,
+.ant-card-body,
+.ant-modal-header {
+  padding: 1rem;
+}
+.w-100 {
+  width: 100%;
+}
+img.ant-image-img.flag {
+  max-height: 24px;
+  max-width: 24px;
+}
+.d-flex {
+  display: flex;
+}
+.align-center,
+.ant-list-item-meta {
+  align-items: center;
+}
+.flex-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.font-1_5 {
+  font-size: 1.5rem;
+}
+.italic {
+  font-style: italic;
+}
+.ant-form-item-label > label {
+  font-weight: 700;
+}
+
+.ant-card-head .ant-card-head-title {
+  padding: 0;
+}
+.ant-modal-body {
+  padding: 1rem;
+  overflow: auto;
+  max-height: calc(100vh - 55px - 6rem - 41px);
+}
+.ant-card-actions > li {
+  text-align: left;
+  padding: 0 1rem;
+}

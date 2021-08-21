@@ -1,0 +1,10 @@
+{
+  "version": "0.0.7",
+  "manifest_version": 3,
+  "name": "Currency Converter",
+  "author": "TIKAM CHAND MEGHwANSHI",
+  "description": "Currency Converter - Converts one currency into another with one simple click.",
+  "homepage_url": "https://tcmhack.in/projects/currency-converter-browser-extension/",
+  "icons": { "128": "icon128.png" },
+  "action": { "default_popup": "index.html" }
+}
