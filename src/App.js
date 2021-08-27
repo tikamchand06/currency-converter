@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Layout, Image, Form, Select, InputNumber, Typography, Spin, Card, Modal, Tooltip, Button, List, Avatar } from "antd";
-import Icon, { CopyrightCircleOutlined, GlobalOutlined } from "@ant-design/icons";
+import { Layout, Image, Form, Select, InputNumber, Typography, Card, Modal, Tooltip, Button, List, Avatar, Result } from "antd";
+import Icon, { CopyrightCircleOutlined, GlobalOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import countries from "./countries.json";
 import logo from "./icon128.png";
@@ -40,7 +40,10 @@ const App = () => {
       });
     }
 
-    if (to) localStorage.to = to;
+    if (to) {
+      localStorage.to = to;
+      setState({ ...state, defaultTo: to });
+    }
     if (amount) setState({ ...state, amount });
   };
 
@@ -59,17 +62,19 @@ const App = () => {
     if (!to) localStorage.to = to = "IN";
 
     if (currencies && last_updated_at && getDate(last_updated_at) === getDate(new Date().getTime())) {
-      setState({ defaultFrom: from, defaultTo: to, currencies: JSON.parse(currencies) });
+      setState({ ...state, defaultFrom: from, defaultTo: to, currencies: JSON.parse(currencies) });
     } else {
       getCurrencies("USD", (currencies) => {
         localStorage.currencies = JSON.stringify(currencies);
         localStorage.last_updated_at = currencies.time_last_update_unix * 1000;
-        setState({ defaultFrom: from, defaultTo: to, currencies });
+        setState({ ...state, defaultFrom: from, defaultTo: to, currencies });
       });
     }
   }, [defaultFrom, defaultTo]);
 
-  if (!defaultTo || !defaultFrom || currencies.length === 0) return <Spin tip='Loading...' />;
+  if (!defaultTo || !defaultFrom || currencies.length === 0) {
+    return <Result status='404' title={<LoadingOutlined />} subTitle='Please wait...' />;
+  }
 
   const fromC = getCountry(defaultFrom);
   const toC = getCountry(defaultTo);
@@ -123,8 +128,8 @@ const App = () => {
         </Form>
 
         <Card
-          hoverable
           className='mb-2'
+          style={{ border: "1px solid #2196f3" }}
           actions={[<strong>Last Updated on: {currencies.time_last_update_utc.split(" 00")[0]}</strong>]}
           title={`Conversion Rate: 1${getCurrency(fromC)} = ${currencies.conversion_rates[toCsymbol]} ${toCsymbol}`}
         >

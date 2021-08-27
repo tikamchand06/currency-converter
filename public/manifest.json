@@ -1,6 +1,7 @@
 {
-  "version": "0.0.7",
+  "version": "0.0.8",
   "manifest_version": 3,
+  "offline_enabled": true,
   "name": "Currency Converter",
   "author": "TIKAM CHAND MEGHwANSHI",
   "description": "Currency Converter - Converts one currency into another with one simple click.",
