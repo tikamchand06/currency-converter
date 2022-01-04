@@ -5,12 +5,12 @@ body {
   font-family: "Noto Serif", serif;
 }
 header.ant-layout-header {
-  color: white;
+  color: #5370fa;
   padding: 0.5rem;
   display: flex;
   height: 54px;
   align-items: center;
-  background-color: #5370fa;
+  background-color: white;
   box-shadow: 0 2px 8px rgb(59 64 69 / 10%);
 }
 header.ant-layout-header img {
@@ -73,15 +73,30 @@ img.ant-image-img.flag {
 .ant-modal {
   top: 0;
   padding: 0;
+  width: 100% !important;
+  margin: 0 !important;
+  max-width: 100% !important;
 }
 .ant-modal-body {
   padding: 1rem;
   overflow: auto;
-  max-height: calc(100vh - 55px - 16px);
+  max-height: calc(100vh - 55px);
 }
 .ant-card-actions > li {
   text-align: left;
   padding: 0;
   margin: 0.5rem 1rem;
   font-weight: 300;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+  background: #5370fa;
 }
