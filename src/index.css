@@ -1,8 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;1,700&display=swap");
-
 body {
-  min-width: 482px;
-  font-family: "Noto Serif", serif;
+  margin: 0;
+  padding: 0;
+  width: 500px;
+  height: 436px;
+  font-family: "Inter", serif;
 }
 header.ant-layout-header {
   color: #5370fa;
@@ -12,13 +13,12 @@ header.ant-layout-header {
   align-items: center;
   background-color: white;
   box-shadow: 0 2px 8px rgb(59 64 69 / 10%);
-}
-header.ant-layout-header img {
-  height: calc(64px - 1rem);
+  border-bottom: 1px solid #f0f0f0;
 }
 footer.ant-layout-footer {
   padding: 0.5rem;
   background: white;
+  border-top: 1px solid #f0f0f0;
 }
 .mb-2 {
   margin-bottom: 1rem;
@@ -32,18 +32,25 @@ footer.ant-layout-footer {
 .mr-1 {
   margin-right: 0.5rem;
 }
+.p-8px {
+  padding: 8px;
+}
 .p-1,
 .ant-card-head,
-.ant-card-body,
-.ant-modal-header {
-  padding: 1rem;
+.ant-card-body {
+  padding: 1rem !important;
 }
 .w-100 {
   width: 100%;
 }
+.m-0 {
+  margin: 0 !important;
+}
 img.ant-image-img.flag {
-  max-height: 24px;
   max-width: 24px;
+  max-height: 24px;
+  border-radius: 3px;
+  border: 1px solid #f5f5f5;
 }
 .d-flex {
   display: flex;
@@ -55,7 +62,15 @@ img.ant-image-img.flag {
 .flex-item {
   display: flex;
   align-items: center;
+}
+.space-between {
   justify-content: space-between;
+}
+.fs-12px {
+  font-size: 12px !important;
+}
+.fs-22px {
+  font-size: 22px !important;
 }
 .font-1_5 {
   font-size: 1.5rem;
@@ -63,24 +78,63 @@ img.ant-image-img.flag {
 .italic {
   font-style: italic;
 }
+.fw-500 {
+  font-weight: 500;
+}
 .ant-form-item-label > label {
   font-weight: 700;
 }
-
+.gap-1 {
+  gap: 0.5rem !important;
+}
+.gap-2 {
+  gap: 1rem !important;
+}
+.flex-1 {
+  flex: 1 !important;
+}
+.text-center {
+  text-align: center;
+}
+.mt-2 {
+  margin-top: 1rem !important;
+}
+.bg-white {
+  background-color: white !important;
+}
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
 .ant-card-head .ant-card-head-title {
   padding: 0;
 }
-.ant-modal {
-  top: 0;
-  padding: 0;
-  width: 100% !important;
-  margin: 0 !important;
-  max-width: 100% !important;
+.ant-card .ant-card-actions > li {
+  margin: 0;
+  text-align: left;
+  padding: 6px 12px;
+  pointer-events: none;
+}
+button.ant-modal-close {
+  top: 8px !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+.ant-modal .ant-modal-header {
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ant-modal .ant-modal-footer {
+  margin: 0;
+  text-align: left;
+  padding: 8px 12px;
+  border-top: 1px solid #f0f0f0;
 }
 .ant-modal-body {
   padding: 1rem;
   overflow: auto;
-  max-height: calc(100vh - 55px);
+  max-height: calc(100vh - 32px - 2rem - 40px);
 }
 .ant-card-actions > li {
   text-align: left;
@@ -88,9 +142,26 @@ img.ant-image-img.flag {
   margin: 0.5rem 1rem;
   font-weight: 300;
 }
-
+.ant-list-sm .ant-list-item {
+  padding: 8px 12px;
+}
+.ant-list .ant-list-item .ant-list-item-meta {
+  gap: 10px;
+  align-items: center !important;
+}
+.ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-avatar,
+.ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-title {
+  margin: 0 !important;
+}
+.ant-input-number-affix-wrapper .ant-input-number-prefix {
+  margin-inline-end: 8px !important;
+}
+.rc-virtual-list-holder {
+  max-height: 160px !important;
+}
 ::-webkit-scrollbar {
   width: 5px;
+  border-radius: 5px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -99,4 +170,5 @@ img.ant-image-img.flag {
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb:hover {
   background: #5370fa;
+  border-radius: 5px;
 }

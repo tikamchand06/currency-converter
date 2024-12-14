@@ -1,10 +1,19 @@
-import { useState, useEffect } from "react";
-import { CopyrightCircleOutlined, GlobalOutlined, LoadingOutlined, HeartFilled } from "@ant-design/icons";
-import { Layout, Image, Form, Select, InputNumber, Typography, Card, Modal, Tooltip, Button, List, Avatar, Result } from "antd";
 import logo from "./icon128.png";
+import { useState, useEffect } from "react";
+import {
+  SwapOutlined,
+  CloseOutlined,
+  DollarOutlined,
+  GlobalOutlined,
+  LoadingOutlined,
+  CopyrightCircleOutlined,
+} from "@ant-design/icons";
+import { Layout, Image, Form, Select, InputNumber, Typography, Card, Modal, Tooltip, Button, List, Avatar, Result } from "antd";
 
-const App = () => {
-  const { Header, Footer, Content } = Layout;
+const { Text, Link, Title } = Typography;
+const { Header, Footer, Content } = Layout;
+
+export default function App() {
   const [form] = Form.useForm();
   const [countries, setCountries] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,7 +46,8 @@ const App = () => {
       localStorage.to = to;
       setState({ ...state, defaultTo: to });
     }
-    if (amount) setState({ ...state, amount });
+
+    if ((!from && !to && !amount) || amount) setState({ ...state, amount: amount || 0 });
   };
 
   const getCurrencies = (base, callback = function () {}) => {
@@ -75,100 +85,149 @@ const App = () => {
     return <Result status='404' title={<LoadingOutlined />} subTitle='Please wait...' />;
   }
 
-  const fromC = getCountry(defaultFrom);
   const toC = getCountry(defaultTo);
   const toCsymbol = getCurrency(toC);
+  const fromC = getCountry(defaultFrom);
 
   return (
-    <Layout>
-      <Header className='flex-item'>
-        <div className='flex-item'>
-          <Image src={logo} preview={false} />
-          <strong className='ml-1 font-1_5'>Currency Converter</strong>
+    <Layout className='bg-white'>
+      <Header className='flex-item space-between'>
+        <div className='flex-item gap-1'>
+          <Image src={logo} preview={false} height={42} rootClassName='flex-item' />
+          <Text strong className='font-1_5'>
+            Currency Converter
+          </Text>
         </div>
-        <Tooltip title='Suported Currencies'>
-          <Button type='primary' shape='circle' icon={<GlobalOutlined />} onClick={() => setIsModalVisible(true)} />
-        </Tooltip>
+        <div className='flex-item'>
+          <Tooltip title='Suported Currencies'>
+            <Button type='text' icon={<GlobalOutlined />} onClick={() => setIsModalVisible(true)} />
+          </Tooltip>
+          <Tooltip title='Close'>
+            <Button type='text' icon={<CloseOutlined />} onClick={() => window?.close()} />
+          </Tooltip>
+        </div>
       </Header>
 
-      <Content className='p-1'>
-        <Form form={form} layout='vertical' onValuesChange={onValuesChange} initialValues={{ from: defaultFrom, to: defaultTo }}>
-          <Form.Item label='Amount' name='amount' rules={[{ required: true, message: "Please enter the amount" }]}>
-            <InputNumber placeholder='Enter the amount' className='w-100' size='large' autoFocus />
-          </Form.Item>
-          <Form.Item label='From' name='from' rules={[{ required: true, message: "Please select the currency" }]}>
-            <Select showSearch allowClear size='large' placeholder='Please select the currency'>
-              {countries.map((c) => (
-                <Select.Option key={c.cca2} value={c.cca2}>
-                  <div className='d-flex align-center'>
-                    <Image src={c.flags.svg} preview={false} className='flag' />{" "}
-                    <span className='ml-2'>
-                      {c.name.common} ({getCurrency(c)})
-                    </span>
-                  </div>
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item label='To' name='to' rules={[{ required: true, message: "Please select the currency" }]}>
-            <Select showSearch allowClear size='large' placeholder='Please select the currency'>
-              {countries.map((c) => (
-                <Select.Option key={c.cca2} value={c.cca2}>
-                  <div className='d-flex align-center'>
-                    <Image src={c.flags.svg} preview={false} className='flag' />{" "}
-                    <span className='ml-2'>
-                      {c.name.common} ({getCurrency(c)})
-                    </span>
-                  </div>
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Form>
+      <Content className='p-8px bg-white'>
+        <Card actions={[<Text className='fw-500 fs-12px'>Last Updated on: {currencies.time_last_update_utc.split(" 00")[0]}</Text>]}>
+          <Form
+            form={form}
+            size='large'
+            layout='vertical'
+            requiredMark={false}
+            onValuesChange={onValuesChange}
+            initialValues={{ from: defaultFrom, to: defaultTo }}
+          >
+            <Form.Item label='Amount' name='amount' className='mb-2'>
+              <InputNumber
+                autoFocus
+                className='w-100'
+                placeholder='Enter the amount'
+                prefix={<DollarOutlined className='fs-22px' />}
+              />
+            </Form.Item>
 
-        <Card
-          className='mb-2'
-          style={{ border: "1px solid #5370fa" }}
-          actions={[<strong>Last Updated on: {currencies.time_last_update_utc.split(" 00")[0]}</strong>]}
-          title={`Conversion Rate: 1${getCurrency(fromC)} = ${currencies.conversion_rates[toCsymbol]} ${toCsymbol}`}
-        >
-          <Typography.Text strong>
-            Converted Amount: {amount ? amount * currencies.conversion_rates[toCsymbol] : 0} {toCsymbol}
-          </Typography.Text>
+            <div className='flex-item gap-1 mb-2'>
+              <Form.Item label='From' name='from' className='flex-1 m-0'>
+                <Select
+                  showSearch
+                  allowClear
+                  optionFilterProp='label'
+                  placeholder='Select country...'
+                  filterOption={(input, option) => {
+                    const optionText = option?.children?.props?.children[1]?.props?.children?.join("");
+                    return (optionText ?? "").toLowerCase().includes(input.toLowerCase());
+                  }}
+                >
+                  {countries.map(({ cca2, flags, name, ...c }) => (
+                    <Select.Option key={cca2} value={cca2}>
+                      <div className='flex-item gap-1'>
+                        {(flags?.svg || flags?.png) && (
+                          <Image src={flags?.svg || flags?.png} preview={false} className='flag' width={24} />
+                        )}
+                        <Text style={{ width: "calc(100%  - 24px - 0.5rem)" }} ellipsis={{ tooltip: true }}>
+                          {name?.common} ({getCurrency(c)})
+                        </Text>
+                      </div>
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <SwapOutlined style={{ fontSize: 18, paddingTop: 30 }} />
+              <Form.Item label='To' name='to' className='flex-1 m-0'>
+                <Select
+                  showSearch
+                  allowClear
+                  optionFilterProp='label'
+                  placeholder='Select country...'
+                  filterOption={(input, option) => {
+                    const optionText = option?.children?.props?.children[1]?.props?.children?.join("");
+                    return (optionText ?? "").toLowerCase().includes(input.toLowerCase());
+                  }}
+                >
+                  {countries.map(({ cca2, flags, name, ...c }) => (
+                    <Select.Option key={cca2} value={cca2}>
+                      <div className='flex-item gap-1'>
+                        {(flags?.svg || flags?.png) && (
+                          <Image src={flags?.svg || flags?.png} preview={false} className='flag' width={24} />
+                        )}
+                        <Text style={{ width: "calc(100%  - 24px - 0.5rem)" }} ellipsis={{ tooltip: true }}>
+                          {name?.common} ({getCurrency(c)})
+                        </Text>
+                      </div>
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+
+            <Text strong className='m-0'>
+              Exchange rate: 1 {getCurrency(fromC)} = {Number(currencies?.conversion_rates[toCsymbol]?.toFixed(2))} {toCsymbol}
+            </Text>
+
+            <Title level={2} type='success' className='mt-2 m-0'>
+              Result: {Number((amount >= 0 ? amount * currencies.conversion_rates[toCsymbol] : 0)?.toFixed(2))} {toCsymbol}
+            </Title>
+          </Form>
         </Card>
-
-        <Typography.Text type='danger' italic>
-          Note: It will keep converting the amount as you Type.
-        </Typography.Text>
       </Content>
 
-      <Footer className='flex-item'>
-        <span className='flex-item'>
-          <CopyrightCircleOutlined />{" "}
-          <a href='https://www.tcmhack.in' className='text-white ml-1 mr-1' target='_blank' rel='noopener noreferrer'>
-            WWW.TCMHACK.IN
-          </a>
-        </span>
-        <span className='flex-item'>
-          Made with <HeartFilled style={{ color: "#eb2f96" }} className='ml-1 mr-1' /> at Jaipur, Rajasthan (India){" "}
-        </span>
+      <Footer className='flex-item gap-1 fw-500 space-between'>
+        <div className='flex-item gap-1'>
+          <CopyrightCircleOutlined /> {new Date().getFullYear()} Designed & Developed by
+          <Link href='https://www.tcmhack.in' target='_blank'>
+            TCMHACK
+          </Link>
+        </div>
+
+        <Link target='_blank' href={`https://chromewebstore.google.com/detail/${window?.chrome?.runtime?.id}/support`}>
+          Support
+        </Link>
       </Footer>
 
-      <Modal title='All Supported Currencies' visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
-        <Typography.Text>We support almost all the commonly circulating world currencies listed below.</Typography.Text>
+      <Modal
+        centered
+        width='100%'
+        open={isModalVisible}
+        title='All Supported Currencies'
+        styles={{ content: { padding: 0 } }}
+        onCancel={() => setIsModalVisible(false)}
+        footer={<Text className='fw-500'>We support nearly all commonly used world currencies.</Text>}
+      >
         <List
           size='small'
           itemLayout='horizontal'
           dataSource={countries}
           renderItem={(item) => (
             <List.Item>
-              <List.Item.Meta avatar={<Avatar src={item.flags.svg} />} title={`${item.name.common} (${getCurrency(item)})`} />
+              <List.Item.Meta
+                avatar={<Avatar size='small' src={item.flags.svg} />}
+                title={`${item.name.common} (${getCurrency(item)})`}
+              />
             </List.Item>
           )}
         />
       </Modal>
     </Layout>
   );
-};
-
-export default App;
+}
