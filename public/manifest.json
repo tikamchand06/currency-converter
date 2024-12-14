@@ -1,10 +1,10 @@
 {
-  "version": "0.0.9",
+  "version": "0.1.0",
   "manifest_version": 3,
   "offline_enabled": true,
   "name": "Currency Converter",
   "author": "TIKAM CHAND MEGHwANSHI",
-  "description": "Currency Converter - Converts one currency into another with one simple click.",
+  "description": "Instantly convert currencies with real-time exchange rates. Perfect for shopping, travel, or financial tracking in your browser.",
   "homepage_url": "https://www.tcmhack.in",
   "icons": { "128": "icon128.png" },
   "action": { "default_popup": "index.html" }
